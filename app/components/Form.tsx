@@ -10,7 +10,11 @@ import {
 } from "@/components/ui/select";
 import React from "react";
 
-export default function Form() {
+interface EditPageProps {
+  edit: string;
+}
+
+export default function Form({ edit }: EditPageProps) {
   return (
     <>
       <form action='' method='post'>
@@ -45,7 +49,11 @@ export default function Form() {
             </Select>
           </div>
           <div className='col-span-1'>
-            <Button type='submit'>Register</Button>
+            {edit === "edit" ? (
+              <Button type='submit'>Save</Button>
+            ) : (
+              <Button type='submit'>Register</Button>
+            )}
           </div>
         </div>
       </form>

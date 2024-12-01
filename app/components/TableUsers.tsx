@@ -8,6 +8,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Pencil, Trash } from "lucide-react";
+import Link from "next/link";
 
 export default function TableUsers() {
   return (
@@ -20,6 +23,7 @@ export default function TableUsers() {
             <TableHead>Age</TableHead>
             <TableHead className=''>Salaire</TableHead>
             <TableHead className=''>Sex</TableHead>
+            <TableHead className=''></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -33,6 +37,20 @@ export default function TableUsers() {
                 <span className='bg-primary/50 text-primary px-5 py-2 rounded-full'>
                   Male
                 </span>
+              </div>
+            </TableCell>
+            <TableCell>
+              <div className='flex flex-row gap-2'>
+                <Button asChild>
+                  <Link href='/users/123'>
+                    <Pencil />
+                  </Link>
+                </Button>
+                <Button asChild className='bg-red-600'>
+                  <Link href='/users/123'>
+                    <Trash />
+                  </Link>
+                </Button>
               </div>
             </TableCell>
           </TableRow>

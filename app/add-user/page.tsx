@@ -4,6 +4,8 @@ import React from "react";
 import Form from "../components/Form";
 
 export default function page() {
+  const event = "register";
+
   return (
     <div className='w-full max-w-7xl mx-auto my-5'>
       <Link
@@ -14,7 +16,7 @@ export default function page() {
         Add User
       </Link>
       <div className='my-5'>
-        <Form />
+        <Form edit={event} />
       </div>
     </div>
   );
