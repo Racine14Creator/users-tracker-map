@@ -14,12 +14,12 @@ export default function TableUsers() {
     <>
       <Table>
         <TableHeader>
-          <TableRow>
-            <TableHead className='w-[100px]'>Full name</TableHead>
+          <TableRow className='text-left'>
+            <TableHead>Full name</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Age</TableHead>
-            <TableHead className='text-right'>Salaire</TableHead>
-            <TableHead className='text-right'>Sex</TableHead>
+            <TableHead className=''>Salaire</TableHead>
+            <TableHead className=''>Sex</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -27,6 +27,7 @@ export default function TableUsers() {
             <TableCell className='font-medium'>Grace Bisimwa</TableCell>
             <TableCell>chiruzabisimwa@gmail.com</TableCell>
             <TableCell>27 ans</TableCell>
+            <TableCell>$ 3,400</TableCell>
             <TableCell className='text-right'>
               <div className='flex flex-col md:flex-row gap-1'>
                 <span className='bg-primary/50 text-primary px-5 py-2 rounded-full'>

@@ -5,8 +5,7 @@ import React from "react";
 export default function Navbar() {
   const navLinks = [
     { id: 1, name: "Users", href: "/" },
-    { id: 2, name: "Profile", href: "/profile" },
-    { id: 3, name: "Add Users", href: "/add-user" },
+    { id: 3, name: "Profile", href: "/profile" },
   ];
 
   return (
