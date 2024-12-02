@@ -3,6 +3,13 @@ import User from "@/models/users";
 import { NextResponse } from "next/server";
 
 export async function GET() {
+  await conn();
+  try {
+    const users = await User.find({});
+    return NextResponse.json({ message: "Get Users", data: users });
+  } catch (error) {
+    console.log(error);
+  }
   return NextResponse.json({ message: "Get Users" });
 }
 
