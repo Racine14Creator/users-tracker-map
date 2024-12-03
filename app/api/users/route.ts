@@ -1,12 +1,14 @@
 import conn from "@/lib/mongodb";
 import User from "@/models/users";
 import { NextResponse } from "next/server";
+// import bcrypt from "bcryptjs"
 
 export async function GET() {
   await conn();
   try {
-    const users = await User.find({});
-    return NextResponse.json({ message: "Get Users", data: users });
+    const data = await User.find();
+
+    return NextResponse.json({ data });
   } catch (error) {
     console.log(error);
   }
@@ -25,6 +27,15 @@ export async function POST(req: Request) {
     // Establish database connection
     await conn();
 
+    // Check the email if is already exist
+    const isEmailExist = await User.findOne({ email });
+
+    if (isEmailExist) {
+      return NextResponse.json(
+        { error: "Email already taken" },
+        { status: 400 }
+      );
+    }
     // Create a new user
     const newUser = await User.create({
       fullname,
