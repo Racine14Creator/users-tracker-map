@@ -10,7 +10,6 @@ export async function GET() {
   } catch (error) {
     console.log(error);
   }
-  return NextResponse.json({ message: "Get Users" });
 }
 
 export async function POST(req: Request) {
