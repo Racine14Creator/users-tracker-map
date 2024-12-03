@@ -13,7 +13,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
 
 interface User {
-  id: number;
+  _id: string;
   fullname: string;
   email: string;
   age: number;
@@ -68,7 +68,7 @@ export default function TableUsers() {
       </TableHeader>
       <TableBody>
         {data.map((user) => (
-          <TableRow key={user.id}>
+          <TableRow key={user._id}>
             <TableCell className='font-bold'>{user.fullname}</TableCell>
             <TableCell>{user.email}</TableCell>
             <TableCell>{user.age || "N/A"}</TableCell>
@@ -81,13 +81,13 @@ export default function TableUsers() {
             <TableCell>
               <div className='flex flex-row gap-2'>
                 <Button asChild>
-                  <Link href={`/users/${user.id}`}>
+                  <Link href={`/users/${user._id}`}>
                     <Pencil />
                   </Link>
                 </Button>
                 <Button
                   className='bg-red-600'
-                  onClick={() => console.log(`Delete user ${user.id}`)}
+                  onClick={() => console.log(`Delete user ${user._id}`)}
                 >
                   <Trash2 />
                 </Button>
