@@ -5,9 +5,11 @@ import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-export default function page() {
-  // const [eventPage, setEventPage] = useState<boolean>(true);
+export default function page({ params }: { params: { _id: string } }) {
+  console.log(params?._id);
+
   const event = "edit";
+
   return (
     <>
       <div className='w-full max-w-7xl mx-auto my-5'>
