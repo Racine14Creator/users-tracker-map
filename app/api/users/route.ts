@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   await conn();
+
   try {
     const data = await User.find();
 
