@@ -1,4 +1,4 @@
-import Users from "./components/Users";
+import Users from "./_components/Users";
 
 export default function Home() {
   return (

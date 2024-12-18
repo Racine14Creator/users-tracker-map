@@ -1,7 +1,7 @@
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import Form from "../components/Form";
+import Form from "../_components/Form";
 
 export default function page() {
   const event = "register";

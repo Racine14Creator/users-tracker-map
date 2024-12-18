@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import {
   Table,
@@ -9,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Pencil, Trash2 } from "lucide-react";
+import { LoaderIcon, Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
 
 interface User {
@@ -23,8 +24,8 @@ interface User {
 
 export default function TableUsers() {
   const [data, setData] = useState<User[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isClient, setIsClient] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isClient, setIsClient] = useState<boolean>(false);
 
   useEffect(() => {
     // Prevent hydration mismatch by ensuring we only fetch data on the client
@@ -32,7 +33,8 @@ export default function TableUsers() {
 
     const fetchData = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/users");
+        setIsLoading(true);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}api/users`);
         if (!res.ok) throw new Error("Failed to fetch");
         const result = await res.json();
         setData(result.data);
@@ -80,9 +82,9 @@ export default function TableUsers() {
             </TableCell>
             <TableCell>
               <div className='flex flex-row gap-2'>
-                <Button asChild>
+                <Button asChild type='button'>
                   <Link href={`/users/${user._id}`}>
-                    <Pencil />
+                    {isLoading ? <LoaderIcon /> : <Pencil />}
                   </Link>
                 </Button>
                 <Button
