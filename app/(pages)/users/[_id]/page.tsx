@@ -1,5 +1,3 @@
-"use client";
-
 import Form from "@/app/_components/Form";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
