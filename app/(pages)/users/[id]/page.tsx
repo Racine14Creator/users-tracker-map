@@ -3,8 +3,12 @@ import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-export default function page({ params }: { params: { _id: string } }) {
-  console.log(params?._id);
+export default async function page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const id = (await params).id;
 
   const event = "edit";
 
@@ -16,7 +20,7 @@ export default function page({ params }: { params: { _id: string } }) {
           className='font-semibold text-2xl items-center flex flex-row gap-2'
         >
           <ChevronLeft />
-          Edit - {"full name"}
+          Edit - {id}
         </Link>
 
         <Form edit={event} />

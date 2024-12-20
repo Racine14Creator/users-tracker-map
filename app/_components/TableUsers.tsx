@@ -12,15 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { LoaderIcon, Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
-
-interface User {
-  _id: string;
-  fullname: string;
-  email: string;
-  age: number;
-  salary: number;
-  sex: string;
-}
+import { User } from "@/utils/types/user-type";
 
 export default function TableUsers() {
   const [data, setData] = useState<User[]>([]);
@@ -51,7 +43,7 @@ export default function TableUsers() {
   if (!isClient || isLoading) {
     return (
       <div className='flex justify-center items-center h-[50vh]'>
-        <div className='animate-spin rounded-full h-32 w-32 border-b-2 border-primary'></div>
+        <div className='animate-spin rounded-full h-20 w-20 border-b-5 border-primary'></div>
       </div>
     );
   }
