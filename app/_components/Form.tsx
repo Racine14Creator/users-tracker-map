@@ -13,20 +13,21 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-interface EditPageProps {
-  edit: string;
-}
+// interface EditPageProps {
+//   edit: string;
+// }
 
-type Inputs = {
+interface Inputs {
+  id: string;
   fullname: string;
   email: string;
   password: string;
   dob: string;
   sex: string;
   salary: number;
-};
+}
 
-export default function Form({ edit }: EditPageProps) {
+export default function Form({ edit, data }: { edit: string; data: Inputs }) {
   const {
     register,
     handleSubmit,
@@ -38,6 +39,14 @@ export default function Form({ edit }: EditPageProps) {
 
   console.log(watch("fullname"));
 
+  if (!data) {
+    return (
+      <div className='flex justify-center items-center h-[50vh]'>
+        <div className='animate-spin rounded-full h-20 w-20 border-b-5 border-primary'></div>
+      </div>
+    );
+  }
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -46,6 +55,7 @@ export default function Form({ edit }: EditPageProps) {
             <Label htmlFor='fullname'>Full name</Label>
             <Input
               type='text'
+              value={data.fullname}
               {...register("fullname", { required: "Full name is required" })}
               placeholder='Full name'
             />
@@ -56,29 +66,39 @@ export default function Form({ edit }: EditPageProps) {
           <div className='col-span-1'>
             <Label htmlFor='email'>Email</Label>
             <Input
+              value={data.email}
               type='email'
               placeholder='email'
               {...register("email", { required: "Email is required" })}
             />
+            {errors.email && (
+              <p className='text-red-500'>{errors.email.message}</p>
+            )}
           </div>
           <div className='col-span-1'>
             <Label htmlFor='dob'>
               Date of Birth <span className='text-red-500'>*</span>
             </Label>
             <Input
+              value={data.dob}
               type='date'
               placeholder='Date of birth'
               {...register("dob", { required: "Date of birth is required" })}
             />
+            {errors.dob && <p className='text-red-500'>{errors.dob.message}</p>}
           </div>
           <div className='col-span-2'>
             <Label htmlFor='salary'>Salary</Label>
             <Input
+              value={data.salary}
               type='number'
               {...register("salary", { required: "Salary is required" })}
               placeholder='Salary'
               min={0}
             />
+            {errors.salary && (
+              <p className='text-red-500'>{errors.salary.message}</p>
+            )}
           </div>
           <div className='col-span-2'>
             <Label htmlFor='sex'>Sex</Label>

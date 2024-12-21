@@ -12,6 +12,7 @@ export default async function page({
 
   const event = "edit";
 
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}api/users/${id}`);
   return (
     <>
       <div className='w-full max-w-7xl mx-auto my-5'>
@@ -23,7 +24,7 @@ export default async function page({
           Edit - {id}
         </Link>
 
-        <Form edit={event} />
+        <Form edit={event} data={await res.json()} />
       </div>
     </>
   );
