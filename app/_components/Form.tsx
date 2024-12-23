@@ -27,25 +27,15 @@ interface Inputs {
   salary: number;
 }
 
-export default function Form({ edit, data }: { edit: string; data: Inputs }) {
+export default function Form() {
   const {
     register,
     handleSubmit,
-    watch,
+    // watch,
     formState: { errors },
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => console.log(data);
-
-  console.log(watch("fullname"));
-
-  if (!data) {
-    return (
-      <div className='flex justify-center items-center h-[50vh]'>
-        <div className='animate-spin rounded-full h-20 w-20 border-b-5 border-primary'></div>
-      </div>
-    );
-  }
 
   return (
     <>
@@ -55,7 +45,6 @@ export default function Form({ edit, data }: { edit: string; data: Inputs }) {
             <Label htmlFor='fullname'>Full name</Label>
             <Input
               type='text'
-              value={data.fullname}
               {...register("fullname", { required: "Full name is required" })}
               placeholder='Full name'
             />
@@ -66,7 +55,6 @@ export default function Form({ edit, data }: { edit: string; data: Inputs }) {
           <div className='col-span-1'>
             <Label htmlFor='email'>Email</Label>
             <Input
-              value={data.email}
               type='email'
               placeholder='email'
               {...register("email", { required: "Email is required" })}
@@ -80,7 +68,6 @@ export default function Form({ edit, data }: { edit: string; data: Inputs }) {
               Date of Birth <span className='text-red-500'>*</span>
             </Label>
             <Input
-              value={data.dob}
               type='date'
               placeholder='Date of birth'
               {...register("dob", { required: "Date of birth is required" })}
@@ -90,7 +77,6 @@ export default function Form({ edit, data }: { edit: string; data: Inputs }) {
           <div className='col-span-2'>
             <Label htmlFor='salary'>Salary</Label>
             <Input
-              value={data.salary}
               type='number'
               {...register("salary", { required: "Salary is required" })}
               placeholder='Salary'
@@ -117,11 +103,7 @@ export default function Form({ edit, data }: { edit: string; data: Inputs }) {
             </Select>
           </div>
           <div className='col-span-1'>
-            {edit === "edit" ? (
-              <Button type='submit'>Save</Button>
-            ) : (
-              <Button type='submit'>Register</Button>
-            )}
+            <Button type='submit'>Register</Button>
           </div>
         </div>
       </form>

@@ -4,8 +4,6 @@ import Link from "next/link";
 import React from "react";
 
 export default function page() {
-  const event = "register";
-
   return (
     <div className='w-full max-w-7xl mx-auto my-5'>
       <Link
@@ -16,7 +14,7 @@ export default function page() {
         Add User
       </Link>
       <div className='my-5'>
-        <Form edit={event} />
+        <Form />
       </div>
     </div>
   );

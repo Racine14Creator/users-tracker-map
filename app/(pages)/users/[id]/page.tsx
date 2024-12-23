@@ -1,7 +1,7 @@
-import Form from "@/app/_components/Form";
+// import EditForm from "@/app/_components/EditForm";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { Suspense } from "react";
 
 export default async function page({
   params,
@@ -10,9 +10,15 @@ export default async function page({
 }) {
   const id = (await params).id;
 
-  const event = "edit";
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}api/users/${id}`,
+    { next: { revalidate: 60 } }
+  );
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}api/users/${id}`);
+  const data = await res.json();
+
+  console.log(data);
+
   return (
     <>
       <div className='w-full max-w-7xl mx-auto my-5'>
@@ -24,7 +30,9 @@ export default async function page({
           Edit - {id}
         </Link>
 
-        <Form edit={event} data={await res.json()} />
+        <Suspense fallback={<div>Loading...</div>}>
+          {/* <EditForm data={data} /> */}
+        </Suspense>
       </div>
     </>
   );
