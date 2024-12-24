@@ -10,14 +10,9 @@ export default async function page({
 }) {
   const id = (await params).id;
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}api/users/${id}`,
-    { next: { revalidate: 60 } }
-  );
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}api/users/${id}`);
 
-  const data = await res.json();
-
-  console.log(data);
+  console.log("Response: ", res);
 
   return (
     <>
