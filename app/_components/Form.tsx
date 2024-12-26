@@ -18,10 +18,9 @@ import {
 // }
 
 interface Inputs {
-  id: string;
   fullname: string;
   email: string;
-  password: string;
+  // password: string;
   dob: string;
   sex: string;
   salary: number;
@@ -35,11 +34,13 @@ export default function Form() {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
+    fetch(``, { method: "POST", body: JSON.stringify(data) });
+  };
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} method='post'>
         <div className='grid grid-cols-1 gap-5 md:grid-cols-4'>
           <div className='col-span-2'>
             <Label htmlFor='fullname'>Full name</Label>
@@ -90,17 +91,18 @@ export default function Form() {
             <Label htmlFor='sex'>Sex</Label>
             <Select
               defaultValue='select'
-              {...register("sex", { required: "Sex is required" })}
+              {...register("sex", { required: false })}
             >
               <SelectTrigger className='w-full'>
                 <SelectValue placeholder='Theme' />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value='select'>Select the gender</SelectItem>
+                <SelectItem value='Select'>Select the gender</SelectItem>
                 <SelectItem value='Male'>Male</SelectItem>
                 <SelectItem value='Female'>Female</SelectItem>
               </SelectContent>
             </Select>
+            {errors.sex && <p className='text-red-500'>{errors.sex.message}</p>}
           </div>
           <div className='col-span-1'>
             <Button type='submit'>Register</Button>
