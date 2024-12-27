@@ -2,12 +2,19 @@ import conn from "@/lib/mongodb";
 import User from "@/models/users";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   // const id = req.nextUrl.searchParams.get("id");
+  const id = params;
 
-  const id = req.nextUrl.searchParams.get("id");
+  const user = await User.findById(id);
 
-  return NextResponse.json({ message: id });
+  return NextResponse.json(
+    { message: "User found", data: user || "This user is not found" },
+    { status: 200 }
+  );
 }
 
 // export async function GET(req: Request) {
@@ -67,5 +74,4 @@ export async function DELETE(req: NextRequest) {
       { status: 500 }
     );
   }
-  return NextResponse.json({ message: "Delete message" });
 }
