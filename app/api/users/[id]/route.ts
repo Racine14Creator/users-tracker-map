@@ -6,15 +6,17 @@ export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  // const id = req.nextUrl.searchParams.get("id");
+  await conn();
+
   const id = params;
 
-  const user = await User.findById(id);
+  if (!id) {
+    return NextResponse.json({ message: "ID is required" }, { status: 400 });
+  }
 
-  return NextResponse.json(
-    { message: "User found", data: user || "This user is not found" },
-    { status: 200 }
-  );
+  console.log("ID: ", params);
+
+  return NextResponse.json({ id });
 }
 
 // export async function GET(req: Request) {

@@ -6,8 +6,8 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET() {
   await conn();
   try {
-    const users = await User.find();
-    return NextResponse.json({ data: users });
+    const users = await User.find().sort({ createdAt: -1 });
+    return NextResponse.json({ data: users }, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json(

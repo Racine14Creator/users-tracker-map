@@ -3,6 +3,16 @@ import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import React, { Suspense } from "react";
 
+async function GetUser(id: string) {
+  const res = await fetch(`/api/users/${id}`, { cache: "no-store" });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json();
+}
+
 export default async function page({
   params,
 }: {
@@ -10,9 +20,8 @@ export default async function page({
 }) {
   const id = (await params).id;
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}api/users/${id}`);
-
-  console.log("Response: ", res);
+  const user = await GetUser(id);
+  console.log("User: ", user);
 
   return (
     <>
@@ -25,8 +34,12 @@ export default async function page({
           Edit - {id}
         </Link>
 
-        <Suspense fallback={<div>Loading...</div>}>
-          {/* <EditForm data={data} /> */}
+        <Suspense
+          fallback={
+            <p className='text-stone-800 font-bold text-2xl'>Loading...</p>
+          }
+        >
+          {/* <EditForm} /> */}
         </Suspense>
       </div>
     </>

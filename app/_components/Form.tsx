@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,30 +12,50 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-// interface EditPageProps {
-//   edit: string;
-// }
-
-interface Inputs {
-  fullname: string;
-  email: string;
-  // password: string;
-  dob: string;
-  sex: string;
-  salary: number;
-}
+import { Inputs } from "@/utils/types/user-type";
+import { useRouter } from "next/navigation";
 
 export default function Form() {
+  const [serverError, setServerError] = React.useState<string | null>(null);
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
-    // watch,
+    control,
     formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
-    fetch(``, { method: "POST", body: JSON.stringify(data) });
+  const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
+    const password = "Password";
+    data = { ...data, password };
+
+    try {
+      const response = await fetch(`/api/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json(); // Parsez la réponse du serveur
+
+      if (!response.ok) {
+        // Si la réponse n'est pas OK, affichez l'erreur
+        setServerError(result.error || "Une erreur s'est produite");
+      } else {
+        // Si tout va bien, réinitialisez l'erreur et affichez un message de succès
+        setServerError(null);
+        // console.log("Utilisateur créé avec succès :", result.data);
+        router.refresh();
+        router.push("/");
+        // alert("Utilisateur créé avec succès !");
+      }
+    } catch (error) {
+      console.error("Something went wrong", error);
+      setServerError("Something went wrong");
+    }
   };
 
   return (
@@ -79,7 +99,12 @@ export default function Form() {
             <Label htmlFor='salary'>Salary</Label>
             <Input
               type='number'
-              {...register("salary", { required: "Salary is required" })}
+              {...register("salary", {
+                valueAsNumber: true,
+                validate: (value) =>
+                  !isNaN(value) || "Salary must be a valid number",
+                required: "Salary is required",
+              })}
               placeholder='Salary'
               min={0}
             />
@@ -89,24 +114,35 @@ export default function Form() {
           </div>
           <div className='col-span-2'>
             <Label htmlFor='sex'>Sex</Label>
-            <Select
-              defaultValue='select'
-              {...register("sex", { required: false })}
-            >
-              <SelectTrigger className='w-full'>
-                <SelectValue placeholder='Theme' />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value='Select'>Select the gender</SelectItem>
-                <SelectItem value='Male'>Male</SelectItem>
-                <SelectItem value='Female'>Female</SelectItem>
-              </SelectContent>
-            </Select>
+            <Controller
+              name='sex'
+              control={control}
+              defaultValue=''
+              rules={{ required: "Sex is required" }}
+              render={({ field }) => (
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger className='w-full'>
+                    <SelectValue placeholder='Select the gender' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value='Male'>Male</SelectItem>
+                    <SelectItem value='Female'>Female</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+            />
             {errors.sex && <p className='text-red-500'>{errors.sex.message}</p>}
           </div>
           <div className='col-span-1'>
             <Button type='submit'>Register</Button>
           </div>
+          {serverError && (
+            <div className='col-span-4 mx-auto'>
+              <p className='text-red-500 bg-red-100 rounded-md p-2'>
+                {serverError}
+              </p>
+            </div>
+          )}
         </div>
       </form>
     </>
